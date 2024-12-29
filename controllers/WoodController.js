@@ -1,5 +1,6 @@
 const Wood = require('../models/Wood');
 const woodResource = require('../resources/woodResource');
+const {woodFilter} = require('../filters/woodFilter');
 const { success, fail } = require('../config/responses');
 const { transformNameData } = require('../config/helper');
 const { getAll, add } = require('../repositories/woodRebo');
@@ -7,6 +8,7 @@ const { getAll, add } = require('../repositories/woodRebo');
 const index = async (req, res) => {
     try {
         const result = await getAll(req);
+        
         if (req.query.pagination) {
             return success(res, [{
                 "data": result.data,

@@ -32,6 +32,5 @@ const validateAdmin = [
         next(); // Proceed to the next middleware or controller
     }
 ];
-console.log('vaedation');
 
 module.exports = validateAdmin;

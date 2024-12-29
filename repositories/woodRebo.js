@@ -1,7 +1,10 @@
 const Wood = require('../models/Wood');
+const {woodFilter} = require('../filters/woodFilter');
 
 
 const getAll = async (req) => {
+    const filteredReq = woodFilter(req.query);
+    console.log(filteredReq);
     const totalCount = await Wood.countDocuments();
     const pagination = parseInt(req.query.pagination) || 0; // Default pagination false 
     const limit = parseInt(req.query.limit) || 10; // Default to 10 items per page
@@ -9,7 +12,7 @@ const getAll = async (req) => {
     const totalPages = Math.ceil(totalCount / limit);
     const skip = (page - 1) * limit;
     if(pagination){
-        woods=  await Wood.find()
+        woods=  await Wood.find(filteredReq)
         .skip(skip)
         .limit(limit);
 

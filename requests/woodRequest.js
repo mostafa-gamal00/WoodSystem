@@ -19,6 +19,5 @@ const validateWood = [
         next(); // Proceed to the next middleware or controller
     }
 ];
-console.log('vaedation');
 
 module.exports = validateWood;
