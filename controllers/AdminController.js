@@ -10,18 +10,17 @@ const index = async (req, res) => {
     try {
         const pagination = parseInt(req.query.pagination) || 0; // Default pagination false 
         const adminData = await getAll(req); // Fetch all documents
-        const formattedAdmins = adminData.map(admin => adminResource(admin));
-        // res.status(200).json((formattedAdmins))
         if (pagination) {
-            const limit = parseInt(req.query.limit) || 10; // Default to 10 items per page
-            const totalCount = await Admin.countDocuments();
-            const page = parseInt(req.query.page) || 1;
-            const totalPages = Math.ceil(totalCount / limit);
-            return success(res, [{ "data": formattedAdmins, 
-                 "page": page ,
-                 "limit": limit ,
-                 "totalPages": totalPages }], "suceess", 200);
+
+            return success(res, [{
+                "data": adminData.data,
+                "page": adminData.page,
+                "limit": adminData.limit,
+                "totalPages": adminData.totalPages
+            }], "suceess", 200);
         }
+        const formattedAdmins = adminData.map(admin => adminResource(admin));
+
         success(res, formattedAdmins, "suceess", 200);
     } catch (error) {
         fail(res, error.message, 500);
