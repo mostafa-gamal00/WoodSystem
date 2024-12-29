@@ -3,12 +3,19 @@ const woodFilter = (filters) => {
     let query = {};
 
     // Apply the filters if they are present in the request
+    if (filters.name) {
+        // Use $or to check both name_en and name_ar fields
+        query['$or'] = [
+            { 'name.name_en': { $regex: filters.name, $options: 'i' } }, // Case-insensitive match for name_en
+            { 'name.name_ar': { $regex: filters.name, $options: 'i' } }  // Case-insensitive match for name_ar
+        ];
+    }
     if (filters.name_en) {
-        query.name_en = { $regex: filters.name_en, $options: 'i' }; // Case-insensitive match
+        query['name.name_en'] = { $regex: filters.name_en, $options: 'i' }; // Case-insensitive match for name_en
     }
 
     if (filters.name_ar) {
-        query.name_ar = { $regex: filters.name_ar, $options: 'i' };
+        query['name.name_ar'] = { $regex: filters.name_ar, $options: 'i' }; // Case-insensitive match for name_ar
     }
 
     if (filters.type) {
